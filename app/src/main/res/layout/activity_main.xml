@@ -58,49 +58,56 @@
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_blocking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipBackgroundColor="@v/bg_chip_state_list"
                 android:text="blocking" />
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="background" />
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_callbacks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="callbacks" />
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_coroutine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="coroutine" />
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_concurrent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="concurrent" />
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_not_cancellable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="not cancellable" />
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="progress" />
 
             <com.google.android.material.chip.Chip
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_channels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="My_Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <!-- Chip background color selector -->
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <!-- Border color -->
+        <item name="chipStrokeColor">@color/colorSecondary</item>
+
+        <!-- Chip text color selector -->
+        <item name="android:textColor">@color/mtrl_choice_chip_text_color</item>
+        <!-- Chip close icon color selector -->
+        <item name="closeIconTint">@color/mtrl_chip_close_icon_tint</item>
+    </style>
+</resources>
