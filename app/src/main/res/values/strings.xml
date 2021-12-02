@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">DraguOsisCoroutines</string>
+    <string name="blocking">blocking</string>
+    <string name="background">background</string>
+    <string name="callbacks">callbacks</string>
+    <string name="suspend">suspend</string>
+    <string name="concurrent">concurrent</string>
+    <string name="not_cancellable">not cancellable</string>
+    <string name="progress">progress</string>
+    <string name="channels">channels</string>
 </resources>

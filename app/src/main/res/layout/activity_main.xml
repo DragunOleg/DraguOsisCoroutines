@@ -51,6 +51,7 @@
         app:layout_constraintTop_toBottomOf="@id/organization">
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:checkedChip="@+id/blocking"
@@ -62,56 +63,56 @@
                 android:id="@+id/chip_blocking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="blocking" />
+                android:text="@string/blocking" />
 
             <com.google.android.material.chip.Chip
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="background" />
+                android:text="@string/background" />
 
             <com.google.android.material.chip.Chip
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_callbacks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="callbacks" />
+                android:text="@string/callbacks" />
 
             <com.google.android.material.chip.Chip
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chip_coroutine"
+                android:id="@+id/chip_suspend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="coroutine" />
+                android:text="@string/suspend" />
 
             <com.google.android.material.chip.Chip
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_concurrent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="concurrent" />
+                android:text="@string/concurrent" />
 
             <com.google.android.material.chip.Chip
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_not_cancellable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="not cancellable" />
+                android:text="@string/not_cancellable" />
 
             <com.google.android.material.chip.Chip
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="progress" />
+                android:text="@string/progress" />
 
             <com.google.android.material.chip.Chip
                 style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_channels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="channels" />
+                android:text="@string/channels" />
         </com.google.android.material.chip.ChipGroup>
 
     </HorizontalScrollView>
