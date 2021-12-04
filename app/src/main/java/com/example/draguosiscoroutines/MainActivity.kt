@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), Contributors {
     override fun getAllParams() = getParamsFromPrefs()
 
     override fun updateContributors(users: List<User>) {
+        if (users.isEmpty()) log.info("Clearing result")
         (binding.recycler.adapter as RecyclerAdapter).update(users)
     }
 

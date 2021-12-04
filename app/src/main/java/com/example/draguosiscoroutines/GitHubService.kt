@@ -1,7 +1,6 @@
 package com.example.draguosiscoroutines
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
