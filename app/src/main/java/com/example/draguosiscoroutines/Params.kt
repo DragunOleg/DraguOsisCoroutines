@@ -1,6 +1,6 @@
 package com.example.draguosiscoroutines
 
-data class Params(val username: String, val password: String, val org: String, val variant: ChipsVariant)
+data class Params(val username: String, val password: String, val org: String, val variant: Variant)
 
 const val PREFS_NAMESPACE = "settings"
 const val PREFS_USERNAME = "username"

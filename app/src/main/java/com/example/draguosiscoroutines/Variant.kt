@@ -1,6 +1,6 @@
 package com.example.draguosiscoroutines
 
-enum class ChipsVariant {
+enum class Variant {
     BLOCKING,         // Request1Blocking
     BACKGROUND,       // Request2Background
     CALLBACKS,        // Request3Callbacks

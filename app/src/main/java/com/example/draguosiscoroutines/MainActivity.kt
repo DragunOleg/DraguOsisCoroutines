@@ -3,26 +3,64 @@ package com.example.draguosiscoroutines
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.core.view.forEach
-import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.example.draguosiscoroutines.databinding.ActivityMainBinding
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.Job
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+import android.view.View
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), Contributors {
     private lateinit var binding: ActivityMainBinding
+    override val job: Job = Job()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         transferPrefsToViewValues()
-        setupListeners()
+        setupSaveListeners()
+        setupOtherThings()
     }
 
-    private fun setupListeners(){
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelJob()
+    }
+
+    override fun getSelectedVariant(): Variant = getParamsFromPrefs().variant
+
+    override fun getAllParams() = getParamsFromPrefs()
+
+    override fun updateContributors(users: List<User>) {
+        (binding.recycler.adapter as RecyclerAdapter).update(users)
+    }
+
+    override fun setLoadingStatus(text: String, iconRunning: Boolean) {
+        binding.progressText.text = text
+        binding.progressCircular.visibility = when (iconRunning) {
+            true -> View.VISIBLE
+            false -> View.INVISIBLE
+        }
+    }
+
+    override fun setActionsStatus(newLoadingEnabled: Boolean, cancellationEnabled: Boolean) {
+        binding.bLoad.isClickable = newLoadingEnabled
+        binding.bCancel.isClickable = cancellationEnabled
+    }
+
+    override fun addCancelListener(listener: () -> Unit) =
+        binding.bCancel.setOnClickListener { listener.invoke() }
+
+    override fun removeCancelListener() = binding.bCancel.setOnClickListener(null)
+
+    override fun runOnActivityUiThread(something: () -> Unit) = runOnUiThread(something)
+
+    private fun setupSaveListeners() {
         with(binding) {
             chipGroup.setOnCheckedChangeListener { _, _ ->
                 transferViewValuesToParams()
@@ -40,6 +78,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun setupOtherThings() {
+        with(binding) {
+            recycler.adapter = RecyclerAdapter(listOf())
+            bLoad.setOnClickListener { loadContributors() }
+        }
+        //need to run network on main thread
+        val policy = ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+    }
+
     private fun transferViewValuesToParams() {
         saveParamsToPrefs(
             Params(
@@ -47,15 +95,15 @@ class MainActivity : AppCompatActivity() {
                 password = binding.ghPassword.text.toString(),
                 org = binding.organization.text.toString(),
                 variant = when (findViewById<Chip>(binding.chipGroup.checkedChipId).text) {
-                    getString(R.string.blocking) -> ChipsVariant.BLOCKING
-                    getString(R.string.background) -> ChipsVariant.BACKGROUND
-                    getString(R.string.callbacks) -> ChipsVariant.CALLBACKS
-                    getString(R.string.suspend) -> ChipsVariant.SUSPEND
-                    getString(R.string.concurrent) -> ChipsVariant.CONCURRENT
-                    getString(R.string.not_cancellable) -> ChipsVariant.NOT_CANCELLABLE
-                    getString(R.string.progress) -> ChipsVariant.PROGRESS
-                    getString(R.string.channels) -> ChipsVariant.CHANNELS
-                    else -> ChipsVariant.BLOCKING
+                    getString(R.string.blocking) -> Variant.BLOCKING
+                    getString(R.string.background) -> Variant.BACKGROUND
+                    getString(R.string.callbacks) -> Variant.CALLBACKS
+                    getString(R.string.suspend) -> Variant.SUSPEND
+                    getString(R.string.concurrent) -> Variant.CONCURRENT
+                    getString(R.string.not_cancellable) -> Variant.NOT_CANCELLABLE
+                    getString(R.string.progress) -> Variant.PROGRESS
+                    getString(R.string.channels) -> Variant.CHANNELS
+                    else -> Variant.BLOCKING
                 }
             )
         )
@@ -68,14 +116,14 @@ class MainActivity : AppCompatActivity() {
             binding.organization.setText(it.org)
             binding.chipGroup.check(
                 when (it.variant) {
-                    ChipsVariant.BLOCKING -> binding.chipBlocking.id
-                    ChipsVariant.BACKGROUND -> binding.chipBackground.id
-                    ChipsVariant.CALLBACKS -> binding.chipCallbacks.id
-                    ChipsVariant.SUSPEND -> binding.chipSuspend.id
-                    ChipsVariant.CONCURRENT -> binding.chipConcurrent.id
-                    ChipsVariant.NOT_CANCELLABLE -> binding.chipNotCancellable.id
-                    ChipsVariant.PROGRESS -> binding.chipProgress.id
-                    ChipsVariant.CHANNELS -> binding.chipChannels.id
+                    Variant.BLOCKING -> binding.chipBlocking.id
+                    Variant.BACKGROUND -> binding.chipBackground.id
+                    Variant.CALLBACKS -> binding.chipCallbacks.id
+                    Variant.SUSPEND -> binding.chipSuspend.id
+                    Variant.CONCURRENT -> binding.chipConcurrent.id
+                    Variant.NOT_CANCELLABLE -> binding.chipNotCancellable.id
+                    Variant.PROGRESS -> binding.chipProgress.id
+                    Variant.CHANNELS -> binding.chipChannels.id
                 }
             )
 
@@ -95,13 +143,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun getParamsFromPrefs(): Params {
         val prefs = getSharedPreferences(PREFS_NAMESPACE, Context.MODE_PRIVATE)
-        val z = ChipsVariant.values()[prefs.getInt(PREFS_CHIP_VARIAN, 0)]
         with(prefs) {
             return Params(
                 username = this.getString(PREFS_USERNAME, "") ?: "",
                 password = this.getString(PREFS_PASSWORD, "") ?: "",
-                org = this.getString(PREFS_ORG, "") ?: "",
-                variant = ChipsVariant.values()[this.getInt(PREFS_CHIP_VARIAN, 0)]
+                org = this.getString(PREFS_ORG, "kotlin") ?: "kotlin",
+                variant = Variant.values()[this.getInt(PREFS_CHIP_VARIAN, 0)]
             )
         }
     }

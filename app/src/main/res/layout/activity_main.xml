@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="8dp"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -13,7 +14,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="GitHub Username"
+        android:hint="@string/github_username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="Password/Token"
+        android:hint="@string/password_token"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,12 +39,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="Organization"
+        android:hint="@string/organization"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gh_password" />
 
     <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,62 +61,137 @@
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_blocking"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/blocking" />
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_background"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/background" />
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_callbacks"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/callbacks" />
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_suspend"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/suspend" />
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_concurrent"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/concurrent" />
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_not_cancellable"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/not_cancellable" />
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_progress"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/progress" />
 
             <com.google.android.material.chip.Chip
-                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/chip_channels"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/channels" />
         </com.google.android.material.chip.ChipGroup>
 
     </HorizontalScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bLoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/load"
+        app:layout_constraintEnd_toStartOf="@+id/progress_circular"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/progress_circular"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/bCancel"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bLoad"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+    <TextView
+        android:id="@+id/progress_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bLoad"
+        tools:text="some example status text" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        app:layout_constraintEnd_toStartOf="@+id/contributions"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_text" />
+
+    <TextView
+        android:id="@+id/contributions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contribution"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/login"
+        app:layout_constraintTop_toBottomOf="@id/progress_text" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,4 +8,11 @@
     <string name="not_cancellable">not cancellable</string>
     <string name="progress">progress</string>
     <string name="channels">channels</string>
+    <string name="load">Load</string>
+    <string name="cancel">Cancel</string>
+    <string name="login">Login:</string>
+    <string name="contribution">Contribution:</string>
+    <string name="github_username">GitHub Username</string>
+    <string name="password_token">Password/Token</string>
+    <string name="organization">Organization</string>
 </resources>
