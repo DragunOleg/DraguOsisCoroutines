@@ -41,11 +41,35 @@ class MainActivity : AppCompatActivity(), Contributors {
         (binding.recycler.adapter as RecyclerAdapter).update(users)
     }
 
-    override fun setLoadingStatus(text: String, iconRunning: Boolean) {
-        binding.progressText.text = text
-        binding.progressCircular.visibility = when (iconRunning) {
-            true -> View.VISIBLE
-            false -> View.INVISIBLE
+    override fun setLoadingStatus(
+        text: String,
+        iconRunning: Boolean,
+        size: Int?,
+        currentItem: Int?
+    ) {
+        with(binding) {
+            progressText.text = text
+            if (size != null && currentItem != null) {
+                if (currentItem == 0) { //initial transform to determinate state
+                    progressCircular.visibility = View.INVISIBLE
+                    progressCircular.isIndeterminate = false
+                }
+                //show determinate state
+                progressCircular.setProgressCompat(
+                    (currentItem.toFloat() / size.toFloat() * 100).toInt(),
+                    true
+                )
+            } else {
+                //transform back to indeterminate state
+                if (!progressCircular.isIndeterminate) {
+                    binding.progressCircular.visibility = View.INVISIBLE
+                    binding.progressCircular.isIndeterminate = true
+                }
+            }
+            progressCircular.visibility = when (iconRunning) {
+                true -> View.VISIBLE
+                false -> View.INVISIBLE
+            }
         }
     }
 
@@ -104,6 +128,7 @@ class MainActivity : AppCompatActivity(), Contributors {
                     getString(R.string.not_cancellable) -> Variant.NOT_CANCELLABLE
                     getString(R.string.progress) -> Variant.PROGRESS
                     getString(R.string.channels) -> Variant.CHANNELS
+                    getString(R.string.channels_progress) -> Variant.CHANNELS_PROGRESS
                     else -> Variant.BLOCKING
                 }
             )
@@ -125,6 +150,7 @@ class MainActivity : AppCompatActivity(), Contributors {
                     Variant.NOT_CANCELLABLE -> binding.chipNotCancellable.id
                     Variant.PROGRESS -> binding.chipProgress.id
                     Variant.CHANNELS -> binding.chipChannels.id
+                    Variant.CHANNELS_PROGRESS -> binding.chipChannelsProgress.id
                 }
             )
 
@@ -152,9 +178,5 @@ class MainActivity : AppCompatActivity(), Contributors {
                 variant = Variant.values()[this.getInt(PREFS_CHIP_VARIAN, 0)]
             )
         }
-    }
-
-    private fun toast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

@@ -111,6 +111,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/channels" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_channels_progress"
+                style="@style/My_Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/channels_progress" />
         </com.google.android.material.chip.ChipGroup>
 
     </HorizontalScrollView>

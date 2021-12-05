@@ -9,6 +9,7 @@ import com.example.draguosiscoroutines.tasks.loadContributorsBackground
 import com.example.draguosiscoroutines.tasks.loadContributorsBlocking
 import com.example.draguosiscoroutines.tasks.loadContributorsCallbacks
 import com.example.draguosiscoroutines.tasks.loadContributorsChannels
+import com.example.draguosiscoroutines.tasks.loadContributorsChannelsProgress
 import com.example.draguosiscoroutines.tasks.loadContributorsConcurrent
 import com.example.draguosiscoroutines.tasks.loadContributorsNotCancellable
 import com.example.draguosiscoroutines.tasks.loadContributorsProgress
@@ -87,6 +88,19 @@ interface Contributors : CoroutineScope {
                     }
                 }.setUpCancellation()
             }
+
+            CHANNELS_PROGRESS -> {   // Performing requests concurrently and showing loading progress
+                launch(Dispatchers.Default) {
+                    loadContributorsChannelsProgress(
+                        service,
+                        req
+                    ) { users, size, currentItem, completed ->
+                        withContext(Dispatchers.Main) {
+                            updateResults(users, startTime, completed, size, currentItem)
+                        }
+                    }
+                }.setUpCancellation()
+            }
         }
     }
 
@@ -99,10 +113,13 @@ interface Contributors : CoroutineScope {
     private fun updateResults(
         users: List<User>,
         startTime: Long,
-        completed: Boolean = true
+        completed: Boolean = true,
+        //two optional params to make progress indicator present real loading progress
+        size: Int? = null,
+        currentItem: Int? = null,
     ) {
         updateContributors(users)
-        updateLoadingStatus(if (completed) COMPLETED else IN_PROGRESS, startTime)
+        updateLoadingStatus(if (completed) COMPLETED else IN_PROGRESS, startTime, size, currentItem)
         if (completed) {
             setActionsStatus(newLoadingEnabled = true)
         }
@@ -110,7 +127,9 @@ interface Contributors : CoroutineScope {
 
     private fun updateLoadingStatus(
         status: LoadingStatus,
-        startTime: Long? = null
+        startTime: Long? = null,
+        size: Int? = null,
+        currentItem: Int? = null,
     ) {
         val time = if (startTime != null) {
             val time = System.currentTimeMillis() - startTime
@@ -123,7 +142,7 @@ interface Contributors : CoroutineScope {
                 IN_PROGRESS -> "in progress $time"
                 CANCELED -> "canceled"
             }
-        setLoadingStatus(text, status == IN_PROGRESS)
+        setLoadingStatus(text, status == IN_PROGRESS, size, currentItem)
     }
 
     private fun Job.setUpCancellation() {
@@ -159,7 +178,7 @@ interface Contributors : CoroutineScope {
 
     fun updateContributors(users: List<User>)
 
-    fun setLoadingStatus(text: String, iconRunning: Boolean)
+    fun setLoadingStatus(text: String, iconRunning: Boolean, size: Int? = null, currentItem: Int? = null)
 
     fun setActionsStatus(newLoadingEnabled: Boolean, cancellationEnabled: Boolean = false)
 
